@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "cyberbiz-app-store"
+version = "0.0.1"
+description = "cyberbiz app store source code"
+authors = ["whc <whccchi@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.88.0"
+uvicorn = {extras = ["standard"], version = "^0.20.0"}
+sqlmodel = "^0.0.8"
+alembic = "^1.8.1"
+loguru = "^0.6.0"
+psycopg2-binary = "^2.9.5"
+
+[tool.poetry.group.dev.dependencies]
+yapf = "^0.32.0"
+flake8 = "^6.0.0"
+toml = "^0.10.2"
+isort = "^5.10.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.yapf]
+column_limit = 100
+based_on_style = "google"
+split_before_logical_operator = true
+
+[tool.isort]
+profile = "hug"
+src_paths = ["isort", "test"]

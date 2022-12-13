@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+  #  app
+  app:
+    container_name: local_fastapi_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: on-failure
+    volumes:
+      - ./:/usr/src/app
+    command: >
+      uvicorn app.main:app --host 0.0.0.0 --port 9999 --reload
+    ports:
+      - '9999:9999'
+    env_file:
+      - .env
+    depends_on:
+      - pgsql
+  #  db
+  pgsql:
+    image: postgres:13
+    restart: unless-stopped
+    environment:
+        - POSTGRES_HOST_AUTH_METHOD=trust
+        - POSTGRES_USER=root
+        - POSTGRES_PASSWORD=
+        - POSTGRES_DB=postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    privileged: true
+  #    redis
+#  redis:
+#    image: redis
+#    restart: unless-stopped
+#    ports:
+#      - '6379:6379'
+volumes:
+  postgres:
