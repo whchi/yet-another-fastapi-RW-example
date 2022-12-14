@@ -1,11 +1,6 @@
 from app.api.router import router as api_router
 from app.core.config import get_app_settings
-from app.exceptions.handler import (
-    http404_exception_handler,
-    http422_exception_handler,
-    http_exception_handler,
-)
-from app.exceptions.schema import ModelNotFoundException
+from app.exceptions.handler import http422_exception_handler, http_exception_handler
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException
@@ -23,8 +18,8 @@ def get_application() -> FastAPI:
         CORSMiddleware,
         allow_origins=['*'],
         allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
+        allow_methods=['*'],
+        allow_headers=['*'],
     )
 
     application.add_exception_handler(
@@ -34,11 +29,6 @@ def get_application() -> FastAPI:
     application.add_exception_handler(
         RequestValidationError,
         http422_exception_handler,
-    )
-
-    application.add_exception_handler(
-        ModelNotFoundException,
-        http404_exception_handler,
     )
 
     application.include_router(api_router, prefix='/api')

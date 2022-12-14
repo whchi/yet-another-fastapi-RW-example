@@ -13,4 +13,4 @@ class Example(SQLModel, table=True):
     age: int
     created_at: datetime = Field(sa_column=Column(TIMESTAMP, default=func.now()))
     updated_at: datetime = Field(
-        sa_column=Column(TIMESTAMP(timezone=True), default=func.now(), onupdate=func.now()))
+        sa_column=Column(TIMESTAMP, default=func.now(), onupdate=func.now()))

@@ -16,6 +16,9 @@ class AddExampleRequest(BaseModel):
     age: int = Field(..., min=1)
     nick_name: str | None = Field(None, min_length=2)
 
+    class Config:
+        schema_extra = {'example': {'name': 'my name', 'age': 18, 'nick_name': 'my nick name'}}
+
 
 class AddExampleResponse(ResponseBaseModel):
     status: int = status.HTTP_201_CREATED

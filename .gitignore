@@ -17,5 +17,6 @@ gen
 .DS_Store
 .vscode
 *.code-workspace
-
+.pytest_cache
 !.gitkeep
+

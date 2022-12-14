@@ -6,8 +6,8 @@ from app.models import Example
 from database.connection import get_session
 from fastapi.param_functions import Depends
 from sqlalchemy.engine import Row
-from sqlalchemy.orm import Session
 from sqlalchemy.sql import delete, insert, update
+from sqlmodel import Session
 from sqlmodel.sql.expression import select
 
 
@@ -25,7 +25,7 @@ class ExampleRepository:
         row = self.db_session.execute(select(self.orm).filter_by(id=id)).fetchone()
 
         if not row:
-            raise ModelNotFoundException(message=f'{self.orm.__tablename__}.id={id} not found')
+            raise ModelNotFoundException(detail=f'{self.orm.__tablename__}.id={id} not found')
 
         return row
 
@@ -36,7 +36,7 @@ class ExampleRepository:
         result = self.db_session.execute(stmt)
 
         if not result.first():
-            raise ModelNotFoundException(message=f'{self.orm.__tablename__}.id={id} not found')
+            raise ModelNotFoundException(detail=f'{self.orm.__tablename__}.id={id} not found')
 
         return self.db_session.execute(select(self.orm).filter_by(id=id)).first()
 

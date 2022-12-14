@@ -3,4 +3,4 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
-router.include_router(example_router, tags=['examples'], prefix='/examples')
+router.include_router(example_router, tags=['example'], prefix='/examples')
