@@ -23,9 +23,6 @@ jobs:
         uses: whcdc/python311-poetry
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
-          export PATH="$HOME/.poetry/bin:$PATH"
           poetry install
       - name: activate poetry shell
         run: |
