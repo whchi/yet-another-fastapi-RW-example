@@ -22,8 +22,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-#        volumes:
-#          - ./.docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
         ports:
           - 5432:5432
     steps:
@@ -31,7 +29,7 @@ jobs:
       #       init sql
       #----------------------------------------------
       - name: Run migrations
-        run: psql -f ./.docker/postgres/init.sql postgresql://postgres:root@:5432/postgres_test
+        run: psql -f ./.docker/postgres/init.sql postgresql://root:root@localhost:5432/postgres_test
       #----------------------------------------------
       #       check-out repo and set-up python
       #----------------------------------------------
