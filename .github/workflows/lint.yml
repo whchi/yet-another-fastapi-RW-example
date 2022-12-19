@@ -28,6 +28,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install poetry
           poetry install
-      - name: Test with pytest
+      - name: activate poetry shell
+        run: |
+          poetry shell
+      - name: pytest
         run: |
           pytest
