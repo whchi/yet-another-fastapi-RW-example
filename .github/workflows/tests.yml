@@ -9,6 +9,18 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      psql:
+        image: postgres:15
+        environment:
+          - POSTGRES_HOST_AUTH_METHOD=trust
+          - POSTGRES_USER=root
+          - POSTGRES_PASSWORD=
+          - POSTGRES_DB=postgres
+        volumes:
+          - ./.docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+        ports:
+          - 5432/tcp
     steps:
       #----------------------------------------------
       #       check-out repo and set-up python
