@@ -19,4 +19,4 @@ gen
 *.code-workspace
 .pytest_cache
 !.gitkeep
-
+.mypy_cache

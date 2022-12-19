@@ -31,15 +31,15 @@ class UpdateExampleRequest(BaseModel):
 
 
 class UpdateExampleResponse(ResponseBaseModel):
-    data: ExampleEntity
+    data: ExampleEntity  # type: ignore
 
 
 class GetExampleResponse(ResponseBaseModel):
-    data: ExampleEntity | None
+    data: ExampleEntity | None  # type: ignore
 
 
 class GetExamplesResponse(ResponseBaseModel):
-    data: List[ExampleEntity | None]
+    data: List[ExampleEntity | None]  # type: ignore
 
 
 class DeleteExampleResponse(ResponseBaseModel):

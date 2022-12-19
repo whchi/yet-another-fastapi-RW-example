@@ -21,7 +21,7 @@ class ExampleRepository:
     def index(self) -> List[Row | None]:
         return self.db_session.execute(select(self.orm)).all()
 
-    def show(self, id) -> Row | None:
+    def show(self, id: int) -> Row:
         row = self.db_session.execute(select(self.orm).filter_by(id=id)).fetchone()
 
         if not row:
@@ -29,7 +29,7 @@ class ExampleRepository:
 
         return row
 
-    def update(self, id, payload: UpdateExampleRequest) -> Row | None:
+    def update(self, id: int, payload: UpdateExampleRequest) -> Row:
         stmt = (update(self.orm).where(self.orm.id == id).values(
             payload.dict(exclude_unset=True)).returning(self.orm.id))
 
@@ -38,9 +38,9 @@ class ExampleRepository:
         if not result.first():
             raise ModelNotFoundException(detail=f'{self.orm.__tablename__}.id={id} not found')
 
-        return self.db_session.execute(select(self.orm).filter_by(id=id)).first()
+        return self.db_session.execute(select(self.orm).filter_by(id=id)).one()
 
-    def delete(self, id) -> None:
+    def delete(self, id: int) -> None:
         self.show(id)
 
         stmt = (delete(self.orm).filter_by(id=id))

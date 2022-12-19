@@ -1,7 +1,6 @@
+from app.core import get_db_settings
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import Session, create_engine
-
-from app.core import get_db_settings
 
 engine = create_engine(
     url=get_db_settings().connection_string,
@@ -18,7 +17,7 @@ session_global = sessionmaker(
 )
 
 
-def get_session():
+def get_session():  # type: ignore
     # sqlalchemy always run statements in a transaction
     # @see https://github.com/sqlalchemy/sqlalchemy/discussions/6921
     with session_global() as session:

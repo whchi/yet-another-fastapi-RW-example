@@ -15,8 +15,8 @@ class RWModel(BaseModel):
 
 
 class TimestampsModel(BaseModel):
-    created_at: datetime.datetime = None
-    updated_at: datetime.datetime = None
+    created_at: datetime.datetime | None = None
+    updated_at: datetime.datetime | None = None
 
     @validator('created_at', 'updated_at', pre=True)
     def default_datetime(cls, value: datetime.datetime) -> datetime.datetime:
@@ -24,7 +24,7 @@ class TimestampsModel(BaseModel):
 
 
 class ResponseBaseModel(BaseModel):
-    data: Dict[str, Any] | List[Dict[str, Any]] | None = None
+    data: Dict[str, Any] | List[Dict[str, Any] | None] | None = None
     message: Optional[str] = ''
     status: int = 200
 

@@ -9,8 +9,10 @@ services:
     restart: on-failure
     volumes:
       - ./:/usr/src/app
+#    command: >
+#      uvicorn app.main:app --host 0.0.0.0 --port 9999 --reload
     command: >
-      uvicorn app.main:app --host 0.0.0.0 --port 9999 --reload
+      uvicorn app.main:app --host 0.0.0.0 --port 9999 --workers=1
     ports:
       - '9999:9999'
     env_file:
