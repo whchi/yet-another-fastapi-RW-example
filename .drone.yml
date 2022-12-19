@@ -1,0 +1,19 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: backend
+    image: python:3.11
+    commands:
+      - pip install poetry
+      - poetry install
+    when:
+      branch:
+        - dev
+
+  - name: try
+    image: busybox
+    commands:
+      - cat README.md
