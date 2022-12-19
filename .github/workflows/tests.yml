@@ -1,0 +1,53 @@
+name: CI
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    # 設定系統上的環境變數，其中包含第三方服務金鑰或是連線資料庫的設定 (例如 MySQL 還有 redis)
+    env:
+      APP_NAME: test
+      APP_ENV: test
+      APP_DEBUG: true
+      LOG_LEVEL: debug
+      DB_USER: root
+      DB_PASSWORD:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_NAME: postgres_test
+
+    # 使用 container 建立會使用到第三方服務 (例如 MySQL 還有 redis)，並建立網路連線
+    services:
+      mysql:
+        image: postgres:15
+        # 設定 container 中的環境變數
+        env:
+          - POSTGRES_HOST_AUTH_METHOD=trust
+          - POSTGRES_USER=root
+          - POSTGRES_PASSWORD=
+          - POSTGRES_DB=postgres
+        ports:
+          - 5432/tcp
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: python:3.11
+        with:
+          extensions: poetry
+
+      - name: Start mysql service
+        run: sudo systemctl start mysql
+
+      - name: Install poetry dependencies
+        run: poetry install
+
+      - name: Run Migration
+        run: alembic upgrade head
+
+      - name: Test with pytest
+        run: pytest
