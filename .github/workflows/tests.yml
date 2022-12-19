@@ -18,18 +18,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python 3.11
-        uses: actions/setup-python@v3
-        with:
-          python-version: "3.11"
+        uses: whcdc/python311-poetry
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
-          export PATH="$HOME/.poetry/bin:$PATH"
           poetry install
-      - name: activate poetry shell
-        run: |
-          poetry shell
       - name: flake8
         run: |
           # stop the build if there are Python syntax errors or undefined names
