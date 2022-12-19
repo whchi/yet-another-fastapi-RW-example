@@ -17,8 +17,8 @@ jobs:
           POSTGRES_USER: root
           POSTGRES_PASSWORD:
           POSTGRES_DB: postgres
-        volumes:
-          - ./.docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+#        volumes:
+#          - ./.docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
         ports:
           - 5432/tcp
     steps:
