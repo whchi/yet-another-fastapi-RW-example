@@ -26,15 +26,15 @@ jobs:
           - 5432:5432
     steps:
       #----------------------------------------------
-      #       init sql
-      #----------------------------------------------
-      - name: Run init.sql
-        run: psql -c "SELECT 'CREATE DATABASE postgres_test' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'postgres_test'" postgresql://root:root@localhost:5432/postgres_test
-      #----------------------------------------------
       #       check-out repo and set-up python
       #----------------------------------------------
       - name: Check out repository
         uses: actions/checkout@v3
+      #----------------------------------------------
+      #       init sql
+      #----------------------------------------------
+      - name: Run init.sql
+        run: psql -f ./.docker/postgres/init.sql postgresql://root:root@localhost:5432/postgres_test
 
       - name: Set up python
         id: setup-python
