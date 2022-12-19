@@ -16,12 +16,22 @@ jobs:
           POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_USER: root
           POSTGRES_PASSWORD:
-          POSTGRES_DB: postgres
+          POSTGRES_DB: postgres_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 #        volumes:
 #          - ./.docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
         ports:
-          - 5432/tcp
+          - 5432:5432
     steps:
+      #----------------------------------------------
+      #       init sql
+      #----------------------------------------------
+      - name: Run migrations
+        run: psql -f ./.docker/postgres/init.sql postgresql://postgres:root@:5432/postgres_test
       #----------------------------------------------
       #       check-out repo and set-up python
       #----------------------------------------------
