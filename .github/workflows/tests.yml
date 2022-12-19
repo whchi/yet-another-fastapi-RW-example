@@ -51,6 +51,12 @@ jobs:
       #----------------------------------------------
       - name: Install project
         run: poetry install --no-interaction
+      - uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: '15'
+          postgresql db: 'postgres_test'
+          postgresql user: root
+          postgresql password:
       #----------------------------------------------
       #              run test suite
       #----------------------------------------------
