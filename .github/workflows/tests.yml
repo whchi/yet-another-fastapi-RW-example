@@ -1,4 +1,4 @@
-name: run test
+name: Test app
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     services:
       psql:
@@ -28,8 +28,8 @@ jobs:
       #----------------------------------------------
       #       init sql
       #----------------------------------------------
-      - name: Run migrations
-        run: psql -f ./.docker/postgres/init.sql postgresql://root:root@localhost:5432/postgres_test
+      - name: Run init.sql
+        run: psql -c "CREATE DATABASE postgres_test" postgresql://root:root@localhost:5432/postgres_test
       #----------------------------------------------
       #       check-out repo and set-up python
       #----------------------------------------------
