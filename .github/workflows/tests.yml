@@ -34,7 +34,7 @@ jobs:
       #       init sql
       #----------------------------------------------
       - name: Run init.sql
-        run: psql -f ./.docker/postgres/init.sql postgresql://root:root@localhost:5432/postgres_test
+        run: psql -f ./.docker/postgres/init.sql postgresql://root:@localhost:5432/postgres_test
 
       - name: Set up python
         id: setup-python
