@@ -7,12 +7,12 @@ from sqlmodel import Session, SQLModel
 
 
 @pytest.fixture(autouse=True)
-def refresh_database(test_db_session: Session):
+def refresh_database(db: Session) -> None:
     SQLModel.metadata.create_all(engine)
 
     yield
 
-    test_db_session.close()
+    db.close()
     SQLModel.metadata.drop_all(engine)
 
 
@@ -29,7 +29,7 @@ def client(app: FastAPI) -> TestClient:
 
 
 @pytest.fixture(scope='session')
-def test_db_session():
+def db():
     return sessionmaker(
         autocommit=False,
         autoflush=False,

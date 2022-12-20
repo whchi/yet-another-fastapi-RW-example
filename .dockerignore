@@ -18,3 +18,5 @@ gen
 .vscode
 *.code-workspace
 .pytest_cache
+.coverage.*
+.coverage

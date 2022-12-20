@@ -20,3 +20,5 @@ gen
 .pytest_cache
 !.gitkeep
 .mypy_cache
+.coverage.*
+.coverage
