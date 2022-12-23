@@ -1,6 +1,7 @@
 from typing import List
 
-from app.api.common_schema import IDModel, ResponseBaseModel, RWModel, TimestampsModel  # noqa: E501
+from app.api.common_schema import RWModel  # noqa: E501
+from app.api.common_schema import IDModel, ResponseBaseModel, TimestampsModel
 from pydantic import BaseModel, Field
 from starlette import status
 
@@ -17,7 +18,13 @@ class AddExampleRequest(BaseModel):
     nick_name: str | None = Field(None, min_length=2)
 
     class Config:
-        schema_extra = {'example': {'name': 'my name', 'age': 18, 'nick_name': 'my nick name'}}
+        schema_extra = {
+            'example': {
+                'name': 'my name',
+                'age': 18,
+                'nick_name': 'my nick name'
+            }
+        }
 
 
 class AddExampleResponse(ResponseBaseModel):

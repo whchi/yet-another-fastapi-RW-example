@@ -25,7 +25,8 @@ class ExampleRepository:
         row = self.db_session.execute(select(self.orm).filter_by(id=id)).fetchone()
 
         if not row:
-            raise ModelNotFoundException(detail=f'{self.orm.__tablename__}.id={id} not found')
+            raise ModelNotFoundException(
+                detail=f'{self.orm.__tablename__}.id={id} not found')
 
         return row
 
@@ -36,7 +37,8 @@ class ExampleRepository:
         result = self.db_session.execute(stmt)
 
         if not result.first():
-            raise ModelNotFoundException(detail=f'{self.orm.__tablename__}.id={id} not found')
+            raise ModelNotFoundException(
+                detail=f'{self.orm.__tablename__}.id={id} not found')
 
         return self.db_session.execute(select(self.orm).filter_by(id=id)).one()
 
