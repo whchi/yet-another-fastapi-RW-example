@@ -1,20 +1,10 @@
-from app.api.contexts.example.domain import (
-    AddExampleRequest,
-    AddExampleResponse,
-    DeleteExampleResponse,
-    GetExampleResponse,
-    GetExamplesResponse,
-    UpdateExampleRequest,
-    UpdateExampleResponse,
-)
+from app.api.contexts.example.domain import (AddExampleRequest, AddExampleResponse,
+                                             DeleteExampleResponse, GetExampleResponse,
+                                             GetExamplesResponse, UpdateExampleRequest,
+                                             UpdateExampleResponse)
 from app.api.contexts.example.gateway import ExamplePresenter
-from app.api.contexts.example.usecase import (
-    AddExample,
-    DeleteExample,
-    GetExample,
-    GetExamples,
-    UpdateExample,
-)
+from app.api.contexts.example.usecase import (AddExample, DeleteExample, GetExample,
+                                              GetExamples, UpdateExample)
 from fastapi import APIRouter
 from fastapi.param_functions import Depends
 
@@ -46,7 +36,9 @@ async def add(
 
 @router.put('/{id}', response_model=UpdateExampleResponse)
 async def update(
-    id: int, payload: UpdateExampleRequest, use_case: UpdateExample = Depends(UpdateExample)
+    id: int,
+    payload: UpdateExampleRequest,
+    use_case: UpdateExample = Depends(UpdateExample)
 ) -> UpdateExampleResponse:
     data = use_case.execute(id, payload)
     result = ExamplePresenter.format(data)

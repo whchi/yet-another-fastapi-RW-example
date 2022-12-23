@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import TIMESTAMP, Column, func
+from sqlalchemy import Column, func, TIMESTAMP
 from sqlmodel import Field, SQLModel
 
 
