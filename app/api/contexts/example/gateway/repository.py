@@ -18,7 +18,7 @@ class ExampleRepository:
         self.orm = Example
         self.db_session = db_session
 
-    def index(self) -> List[Row | None]:
+    def index(self) -> List[Row]:
         return self.db_session.execute(select(self.orm)).all()
 
     def show(self, id: int) -> Row:
