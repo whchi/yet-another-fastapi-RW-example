@@ -27,8 +27,9 @@ class AddExampleRequest(BaseModel):
         }
 
 
-class AddExampleResponse(ResponseBaseModel):
+class AddExampleResponse(ResponseBaseModel[dict[None, None]]):
     status: int = status.HTTP_201_CREATED
+    data: dict[None, None] = {}
 
 
 class UpdateExampleRequest(BaseModel):
@@ -37,17 +38,17 @@ class UpdateExampleRequest(BaseModel):
     nick_name: str | None = Field(None, min_length=2)
 
 
-class UpdateExampleResponse(ResponseBaseModel):
-    data: ExampleEntity  # type: ignore
+class UpdateExampleResponse(ResponseBaseModel[ExampleEntity]):
+    data: ExampleEntity
 
 
-class GetExampleResponse(ResponseBaseModel):
-    data: ExampleEntity | None  # type: ignore
+class GetExampleResponse(ResponseBaseModel[ExampleEntity]):
+    data: ExampleEntity
 
 
-class GetExamplesResponse(ResponseBaseModel):
-    data: List[ExampleEntity | None]  # type: ignore
+class GetExamplesResponse(ResponseBaseModel[List[ExampleEntity]]):
+    data: List[ExampleEntity]
 
 
-class DeleteExampleResponse(ResponseBaseModel):
-    ...
+class DeleteExampleResponse(ResponseBaseModel[dict[None, None]]):
+    data: dict[None, None] = {}

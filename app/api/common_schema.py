@@ -1,7 +1,8 @@
 import datetime
-from typing import Any, Dict, List, Optional
+from typing import Generic, TypeVar
 
 from pydantic import BaseModel, Field, validator
+from pydantic.generics import GenericModel
 
 
 class IDModel(BaseModel):
@@ -23,9 +24,12 @@ class TimestampsModel(BaseModel):
         return value or datetime.datetime.now()
 
 
-class ResponseBaseModel(BaseModel):
-    data: Dict[str, Any] | List[Dict[str, Any] | None] | None = None
-    message: Optional[str] = ''
+T = TypeVar('T')
+
+
+class ResponseBaseModel(GenericModel, Generic[T]):
+    data: T | None = None
+    message: str | None = ''
     status: int = 200
 
     class Config:
