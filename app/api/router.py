@@ -1,5 +1,6 @@
-from app.api.contexts.example import router as example_router
 from fastapi import APIRouter
+
+from app.api.contexts.example import router as example_router
 
 router = APIRouter()
 

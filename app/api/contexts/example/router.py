@@ -1,11 +1,12 @@
+from fastapi import APIRouter
+from fastapi.param_functions import Depends
+
 from app.api.contexts.example.domain import (AddExampleRequest, AddExampleResponse,
                                              DeleteExampleResponse, GetExampleResponse,
                                              GetExamplesResponse, UpdateExampleRequest,
                                              UpdateExampleResponse)
 from app.api.contexts.example.usecase import (AddExample, DeleteExample, GetExample,
                                               GetExamples, UpdateExample)
-from fastapi import APIRouter
-from fastapi.param_functions import Depends
 
 router = APIRouter()
 

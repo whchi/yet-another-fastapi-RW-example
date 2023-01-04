@@ -1,9 +1,10 @@
 from typing import List
 
-from app.api.common_schema import RWModel  # noqa: E501
-from app.api.common_schema import IDModel, ResponseBaseModel, TimestampsModel
 from pydantic import BaseModel, Field
 from starlette import status
+
+from app.api.common_schema import RWModel  # noqa: E501
+from app.api.common_schema import IDModel, ResponseBaseModel, TimestampsModel
 
 
 class ExampleEntity(IDModel, TimestampsModel, RWModel):

@@ -1,6 +1,7 @@
+from fastapi.param_functions import Depends
+
 from app.api.contexts.example.domain.schema import ExampleEntity
 from app.api.contexts.example.gateway import ExampleRepository
-from fastapi.param_functions import Depends
 
 
 class GetExample:
