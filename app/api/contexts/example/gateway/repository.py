@@ -1,14 +1,15 @@
 from typing import List
 
-from app.api.contexts.example.domain import AddExampleRequest, UpdateExampleRequest
-from app.exceptions.schema import ModelNotFoundException
-from app.models import Example
 from database.connection import get_session
 from fastapi.param_functions import Depends
 from sqlalchemy.engine import Row
 from sqlalchemy.sql import delete, insert, update
 from sqlmodel import Session
 from sqlmodel.sql.expression import select
+
+from app.api.contexts.example.domain import AddExampleRequest, UpdateExampleRequest
+from app.exceptions.schema import ModelNotFoundException
+from app.models import Example
 
 
 # a = Row()

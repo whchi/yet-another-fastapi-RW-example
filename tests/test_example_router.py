@@ -1,11 +1,12 @@
-import pytest
-from app.api.contexts.example.domain.schema import AddExampleRequest
-from app.api.contexts.example.gateway import ExampleRepository
-from app.models import Example
 from fastapi import FastAPI
+import pytest
 from sqlmodel import Session
 from starlette import status
 from starlette.testclient import TestClient
+
+from app.api.contexts.example.domain.schema import AddExampleRequest
+from app.api.contexts.example.gateway import ExampleRepository
+from app.models import Example
 
 pytestmark = pytest.mark.asyncio
 
