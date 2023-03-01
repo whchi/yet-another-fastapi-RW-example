@@ -20,7 +20,6 @@ steps:
     image: whcdc/python-poetry-checker
     commands:
       - poetry config virtualenvs.create true
-      - poetry config virtualenvs.in-project true
       - poetry install --no-interaction --no-root
 
   - name: lint
