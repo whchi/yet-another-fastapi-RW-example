@@ -49,5 +49,5 @@ jobs:
       - name: Run lint
         run: |
           source .venv/bin/activate
-          flake8 ./app --format='%(path)s:%(row)d,%(col)d:%(code)s:%(text)s:https://lintlyci.github.io/Flake8Rules/rules/%(code)s.html'
-          mypy ./app
+          poetry run flake8 ./app --format='%(path)s:%(row)d,%(col)d:%(code)s:%(text)s:https://lintlyci.github.io/Flake8Rules/rules/%(code)s.html'
+          poetry run mypy ./app

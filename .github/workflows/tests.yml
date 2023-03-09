@@ -72,9 +72,15 @@ jobs:
       - name: Install project
         run: poetry install --no-interaction
       #----------------------------------------------
+      #      add hosts to /etc/hosts
+      #----------------------------------------------
+      - name: Add hosts to /etc/hosts
+        run: |
+            sudo echo "127.0.0.1 pgsql" | sudo tee -a /etc/hosts
+      #----------------------------------------------
       #              run test suite
       #----------------------------------------------
       - name: Run tests
         run: |
           source .venv/bin/activate
-          pytest tests/
+          poetry run pytest tests/
