@@ -1,3 +1,4 @@
 from .schema import (AddExampleRequest, AddExampleResponse, DeleteExampleResponse,
-                     GetExampleResponse, GetExamplesResponse, UpdateExampleRequest,
+                     GetExampleResponse, GetExamplesResponse,
+                     GetPaginateExamplesResponse, UpdateExampleRequest,
                      UpdateExampleResponse)
