@@ -17,7 +17,7 @@ def example_orm(app: FastAPI, db: Session) -> Example:
     repo = ExampleRepository(db)
     repo.add(to_save)
     db.commit()
-    return db.query(Example).order_by(Example.id.desc()).limit(1).one()
+    return db.query(Example).limit(1).one()
 
 
 async def test_add_example(client: TestClient, db: Session) -> None:
@@ -63,3 +63,14 @@ async def test_update_example(client: TestClient, db: Session,
     db.commit()
     assert db.query(Example).filter_by(
         id=example_orm.id).first().name == response.json()['data']['name']
+
+
+async def test_get_paginate_example(client: TestClient,
+                                    example_orm: Example) -> None:
+    response = client.get('/api/examples/paginate-examples')
+    assert response.status_code == status.HTTP_200_OK
+    body = response.json()
+    assert len(body['data']['items']) == 1
+    assert body['data']['total'] == 1
+    assert body['data']['current_page'] == 1
+    assert not body['data']['next_page']
