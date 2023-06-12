@@ -21,7 +21,7 @@ class ModelPaginator:
             next_page = None
             prev_page = last_page
 
-        items = [x for x in query.offset((page - 1) * per_page).limit(per_page)]
+        items = list(query.offset((page - 1) * per_page).limit(per_page))
         return {
             'items': items,
             'total': total,

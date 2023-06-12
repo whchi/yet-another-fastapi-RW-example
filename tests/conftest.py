@@ -1,9 +1,10 @@
-from database.connection import engine
+import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-import pytest
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import Session, SQLModel
+
+from database.connection import engine
 
 
 @pytest.fixture(autouse=True)

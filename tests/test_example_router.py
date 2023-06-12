@@ -1,5 +1,5 @@
-from fastapi import FastAPI
 import pytest
+from fastapi import FastAPI
 from sqlmodel import Session
 from starlette import status
 from starlette.testclient import TestClient
@@ -43,7 +43,7 @@ async def test_get_example(client: TestClient, db: Session,
 
 async def test_get_examples(client: TestClient, db: Session,
                             example_orm: Example) -> None:
-    response = client.get(f'/api/examples')
+    response = client.get('/api/examples')
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()['data']) == 1
 
@@ -65,8 +65,7 @@ async def test_update_example(client: TestClient, db: Session,
         id=example_orm.id).first().name == response.json()['data']['name']
 
 
-async def test_get_paginate_example(client: TestClient,
-                                    example_orm: Example) -> None:
+async def test_get_paginate_example(client: TestClient, example_orm: Example) -> None:
     response = client.get('/api/examples/paginate-examples')
     assert response.status_code == status.HTTP_200_OK
     body = response.json()

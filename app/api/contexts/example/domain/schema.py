@@ -3,8 +3,14 @@ from typing import List
 from pydantic import BaseModel, Field
 from starlette import status
 
-from app.api.shared_schema import (IDModel, PageModel, PaginateResponseBaseModel,
-                                   ResponseBaseModel, RWModel, TimestampsModel)
+from app.api.shared_schema import (
+    IDModel,
+    PageModel,
+    PaginateResponseBaseModel,
+    ResponseBaseModel,
+    RWModel,
+    TimestampsModel,
+)
 
 
 class ExampleEntity(IDModel, TimestampsModel, RWModel):

@@ -1,14 +1,23 @@
 from fastapi import APIRouter
 from fastapi.param_functions import Depends, Query
 
-from app.api.contexts.example.domain import (AddExampleRequest, AddExampleResponse,
-                                             DeleteExampleResponse, GetExampleResponse,
-                                             GetExamplesResponse,
-                                             GetPaginateExamplesResponse,
-                                             UpdateExampleRequest,
-                                             UpdateExampleResponse)
-from app.api.contexts.example.usecase import (AddExample, DeleteExample, GetExample,
-                                              GetExamples, UpdateExample)
+from app.api.contexts.example.domain import (
+    AddExampleRequest,
+    AddExampleResponse,
+    DeleteExampleResponse,
+    GetExampleResponse,
+    GetExamplesResponse,
+    GetPaginateExamplesResponse,
+    UpdateExampleRequest,
+    UpdateExampleResponse,
+)
+from app.api.contexts.example.usecase import (
+    AddExample,
+    DeleteExample,
+    GetExample,
+    GetExamples,
+    UpdateExample,
+)
 from app.api.contexts.example.usecase.get_paginate_examples import GetPaginateExamples
 
 router = APIRouter()
@@ -16,9 +25,9 @@ router = APIRouter()
 
 @router.get('/paginate-examples', response_model=GetPaginateExamplesResponse)
 def get_all_paginate(
-    page: int = Query(1, gt=0),
-    per_page: int = Query(15, gt=0, min=5),
-    use_case: GetPaginateExamples = Depends(GetPaginateExamples),
+        page: int = Query(1, gt=0),
+        per_page: int = Query(15, gt=0, min=5),
+        use_case: GetPaginateExamples = Depends(GetPaginateExamples),
 ) -> GetPaginateExamplesResponse:
     data = use_case.execute(page, per_page)
     return GetPaginateExamplesResponse(data=data)
@@ -47,9 +56,9 @@ def add(
 
 @router.put('/{id}', response_model=UpdateExampleResponse)
 async def update(
-    id: int,
-    payload: UpdateExampleRequest,
-    use_case: UpdateExample = Depends(UpdateExample)
+        id: int,
+        payload: UpdateExampleRequest,
+        use_case: UpdateExample = Depends(UpdateExample)
 ) -> UpdateExampleResponse:
     data = use_case.execute(id, payload)
     return UpdateExampleResponse(data=data)

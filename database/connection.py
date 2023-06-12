@@ -1,6 +1,7 @@
-from app.core import get_db_settings
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import Session, create_engine
+
+from app.core import get_db_settings
 
 engine = create_engine(
     url=get_db_settings().connection_string,

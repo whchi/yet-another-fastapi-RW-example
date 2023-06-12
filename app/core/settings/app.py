@@ -5,7 +5,6 @@ from typing import Any, Dict, Tuple
 from loguru import logger
 
 from app.core.logging import InterceptHandler
-
 from .base import BaseAppSettings
 
 

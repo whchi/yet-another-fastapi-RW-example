@@ -7,18 +7,16 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = "^0.88.0"
-uvicorn = { extras = ["standard"], version = "^0.20.0" }
+fastapi = "^0.97.0"
+uvicorn = "^0.22.0"
 sqlmodel = "^0.0.8"
 alembic = "^1.8.1"
-loguru = "^0.6.0"
+loguru = "^0.7.0"
 psycopg2-binary = "^2.9.5"
 
 [tool.poetry.group.dev.dependencies]
 yapf = "^0.32.0"
-flake8 = "^6.0.0"
 toml = "^0.10.2"
-isort = "^5.10.1"
 pytest = "^7.2.0"
 pytest-env = "^0.8.1"
 httpx = "^0.23.1"
@@ -26,6 +24,7 @@ pytest-asyncio = "^0.20.3"
 mypy = "^0.991"
 pytest-cov = "^4.0.0"
 pytest-xdist = "^3.1.0"
+ruff = "^0.0.272"
 
 [build-system]
 requires = ["poetry-core"]
@@ -37,12 +36,34 @@ based_on_style = "google"
 split_before_logical_operator = true
 split_before_arithmetic_operator = true # flake8 W504
 
-[tool.isort]
-profile = "google"
-src_paths = ["app", "tests"]
-force_single_line = false
-line_length = 88
-
+[tool.ruff]
+line-length = 88
+extend-select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # pyflakes
+    "I", # isort
+    "C", # flake8-comprehensions
+    "B", # flake8-bugbear
+]
+extend-ignore = [
+    "E501",
+    "B008",
+    "E402",
+    "E226",
+]
+extend-exclude = [
+    ".venv",
+    ".git",
+    "__pycache__",
+    "__init__.py"
+]
+[tool.ruff.isort]
+force-single-line = false
+[tool.ruff.mccabe]
+max-complexity = 10
+[tool.ruff.flake8-quotes]
+inline-quotes = "single"
 # pytest setup
 [tool.pytest.ini_options]
 addopts = """
@@ -53,19 +74,19 @@ addopts = """
 """
 
 testpaths = [
-  "tests"
+    "tests"
 ]
 
 env = [
-  "APP_NAME=test",
-  "APP_ENV=test",
-  "APP_DEBUG=true",
-  "LOG_LEVEL=debug",
-  "DB_USER=root",
-  "DB_PASSWORD=",
-  "DB_HOST=pgsql",
-  "DB_PORT=5432",
-  "DB_NAME=postgres_test"
+    "APP_NAME=test",
+    "APP_ENV=test",
+    "APP_DEBUG=true",
+    "LOG_LEVEL=debug",
+    "DB_USER=root",
+    "DB_PASSWORD=",
+    "DB_HOST=pgsql",
+    "DB_PORT=5432",
+    "DB_NAME=postgres_test"
 ]
 
 log_format = "%(asctime)s (%(filename)-16s:%(lineno)-3s) %(levelname)-8s %(message)s"
