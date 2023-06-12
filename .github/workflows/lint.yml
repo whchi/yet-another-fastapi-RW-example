@@ -1,4 +1,4 @@
-name: Lint app
+name: Ruff check app
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  lint:
+  ruff:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Poetry
+      - uses: chartboost/ruff-action@v1
         uses: snok/install-poetry@v1
         with:
           virtualenvs-create: true
@@ -46,8 +46,8 @@ jobs:
       #----------------------------------------------
       #              run test suite
       #----------------------------------------------
-      - name: Run lint
+      - name: Run ruff
         run: |
           source .venv/bin/activate
-          poetry run flake8 ./app --format='%(path)s:%(row)d,%(col)d:%(code)s:%(text)s:https://lintlyci.github.io/Flake8Rules/rules/%(code)s.html'
+          poetry run ruff check .
           poetry run mypy ./app
