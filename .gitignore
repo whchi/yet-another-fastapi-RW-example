@@ -22,3 +22,4 @@ gen
 .mypy_cache
 .coverage.*
 .coverage
+.ruff_cache

@@ -24,9 +24,9 @@ class ExampleRepository:
         return self.db_session.execute(select(self.orm)).all()
 
     def paginate_index(
-            self,
-            page: int,
-            per_page: int,
+        self,
+        page: int,
+        per_page: int,
     ) -> Dict[str, Any]:
         query = self.db_session.query(self.orm).order_by(
             col(self.orm.created_at).desc(),

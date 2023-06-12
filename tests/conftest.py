@@ -7,14 +7,33 @@ from sqlmodel import Session, SQLModel
 from database.connection import engine
 
 
-@pytest.fixture(autouse=True)
-def refresh_database(db: Session) -> None:
+@pytest.fixture(autouse=True, scope='session')
+def db_engine():
     SQLModel.metadata.create_all(engine)
 
-    yield
+    yield engine
 
-    db.close()
     SQLModel.metadata.drop_all(engine)
+
+
+@pytest.fixture(scope='function')
+def db(db_engine):
+    session = sessionmaker(
+        autocommit=False,
+        autoflush=False,
+        bind=db_engine,
+        class_=Session,
+        expire_on_commit=False,
+    )()
+
+    yield session
+
+    session.rollback()
+    for table in reversed(SQLModel.metadata.sorted_tables):
+        session.execute(f'TRUNCATE {table.name} CASCADE;')
+        session.commit()
+
+    session.close()
 
 
 @pytest.fixture
@@ -27,14 +46,3 @@ def app() -> FastAPI:
 @pytest.fixture
 def client(app: FastAPI) -> TestClient:
     return TestClient(app)
-
-
-@pytest.fixture(scope='session')
-def db():
-    return sessionmaker(
-        autocommit=False,
-        autoflush=False,
-        bind=engine,
-        class_=Session,
-        expire_on_commit=True,
-    )()

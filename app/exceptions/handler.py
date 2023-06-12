@@ -14,8 +14,8 @@ async def http_exception_handler(_: Request, e: HTTPException) -> JSONResponse:
 
 
 async def http422_exception_handler(
-        _: Request,
-        e: Union[RequestValidationError, ValidationError],
+    _: Request,
+    e: Union[RequestValidationError, ValidationError],
 ) -> JSONResponse:
     return JSONResponse(
         {'errors': e.errors()},

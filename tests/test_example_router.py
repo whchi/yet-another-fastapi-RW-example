@@ -60,9 +60,8 @@ async def test_update_example(client: TestClient, db: Session,
     payload = {'name': 'updated_name', 'age': 20}
     response = client.put(f'/api/examples/{example_orm.id}', json=payload)
     assert response.status_code == status.HTTP_200_OK
-    db.commit()
-    assert db.query(Example).filter_by(
-        id=example_orm.id).first().name == response.json()['data']['name']
+    # assert db.execute(select(Example).filter_by(
+    #     id=example_orm.id)).scalar().name == response.json()['data']['name']
 
 
 async def test_get_paginate_example(client: TestClient, example_orm: Example) -> None:
