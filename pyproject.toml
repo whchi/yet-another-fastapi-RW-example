@@ -62,6 +62,9 @@ extend-exclude = [
 ]
 [tool.ruff.isort]
 force-single-line = false
+force-sort-within-sections = true
+single-line-exclusions = ["typing"]
+order-by-type = false
 [tool.ruff.mccabe]
 max-complexity = 10
 [tool.ruff.flake8-quotes]

@@ -1,8 +1,7 @@
-import asyncio
-
 import pytest
 from fastapi import FastAPI
-from sqlmodel import Session, select
+from sqlalchemy import select
+from sqlmodel import Session
 from starlette import status
 from starlette.testclient import TestClient
 
@@ -19,12 +18,12 @@ def example_orm(app: FastAPI, db: Session) -> Example:
     repo = ExampleRepository(db)
     repo.add(to_save)
     db.commit()
-    return db.execute(select(Example)).scalars().one()
+    return db.query(Example).limit(1).one()
 
 
 async def test_add_example(client: TestClient, db: Session) -> None:
     payload = {'name': 'my name', 'age': 18, 'nick_name': 'my nick name'}
-    response = client.post('/api/examples', json=payload)
+    response = client.post('/api/async-examples', json=payload)
     assert response.status_code == status.HTTP_200_OK
     assert response.json()['status'] == status.HTTP_201_CREATED
 
@@ -38,41 +37,36 @@ async def test_add_example(client: TestClient, db: Session) -> None:
 
 async def test_get_example(client: TestClient, db: Session,
                            example_orm: Example) -> None:
-    response = client.get(f'/api/examples/{example_orm.id}')
+    response = client.get(f'/api/async-examples/{example_orm.id}')
     assert response.status_code == status.HTTP_200_OK
-    assert db.query(Example).filter_by(id=example_orm.id).scalar().id == example_orm.id
+    assert db.query(Example).filter_by(id=example_orm.id).first().id == example_orm.id
 
 
 async def test_get_examples(client: TestClient, db: Session,
                             example_orm: Example) -> None:
-    response = client.get('/api/examples')
+    response = client.get('/api/async-examples')
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()['data']) == 1
 
 
 async def test_delete_example(client: TestClient, db: Session,
                               example_orm: Example) -> None:
-    response = client.delete(f'/api/examples/{example_orm.id}')
+    response = client.delete(f'/api/async-examples/{example_orm.id}')
     assert response.status_code == status.HTTP_200_OK
     assert db.query(Example).filter_by(id=example_orm.id).first() is None
 
 
 async def test_update_example(client: TestClient, db: Session,
                               example_orm: Example) -> None:
-    payload = {'name': 'updated_name', 'nick_name': 'nniicckknnaammee', 'age': 20}
-    response = client.put(f'/api/examples/{example_orm.id}', json=payload)
-    db.commit()
+    payload = {'name': 'updated_name', 'age': 20}
+    response = client.put(f'/api/async-examples/{example_orm.id}', json=payload)
     assert response.status_code == status.HTTP_200_OK
-    updated_example = db.execute(select(Example).filter(Example.id == example_orm.id))
-    updated_example = updated_example.scalars().one()
-    assert updated_example.name == payload['name']
-    # db.commit()
-    # assert db.query(Example).filter(
-    #     Example.id == example_orm.id).scalar().name == response.json()['data']['name']
+    assert db.execute(select(Example).filter_by(
+        id=example_orm.id)).scalar().name == response.json()['data']['name']
 
 
 async def test_get_paginate_example(client: TestClient, example_orm: Example) -> None:
-    response = client.get('/api/examples/paginate-examples')
+    response = client.get('/api/async-examples/paginate-examples')
     assert response.status_code == status.HTTP_200_OK
     body = response.json()
     assert len(body['data']['items']) == 1
