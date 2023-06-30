@@ -4,10 +4,11 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import Session, SQLModel
 
+from app.models import Example
 from database.connection import engine
 
 
-@pytest.fixture(autouse=True, scope='session')
+@pytest.fixture(scope='session')
 def db_engine():
     SQLModel.metadata.create_all(engine)
 
@@ -46,3 +47,12 @@ def app() -> FastAPI:
 @pytest.fixture
 def client(app: FastAPI) -> TestClient:
     return TestClient(app)
+
+
+@pytest.fixture
+def example_orm(app: FastAPI, db: Session) -> Example:
+    example = Example(name='test', age=18, nick_name='my_nick')
+    db.add(example)
+    db.commit()
+    db.refresh(example)
+    return example

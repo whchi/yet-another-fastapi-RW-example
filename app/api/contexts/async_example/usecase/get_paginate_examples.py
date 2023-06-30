@@ -1,8 +1,9 @@
 from fastapi.param_functions import Depends
 
-from app.api.contexts.async_example.domain.schema import ExampleEntity
-from app.api.contexts.async_example.gateway import ExampleRepository
 from app.api.shared_schema import PageModel
+
+from ..domain import ExampleEntity
+from ..gateway import ExampleRepository
 
 
 class GetPaginateExamples:

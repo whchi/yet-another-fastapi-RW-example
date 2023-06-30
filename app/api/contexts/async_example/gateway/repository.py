@@ -54,7 +54,7 @@ class ExampleRepository:
         if not result.first():
             raise ModelNotFoundException(
                 detail=f'{self.orm.__tablename__}.id={id} not found')
-
+        await self.db_session.commit()
         result = await self.db_session.execute(select(self.orm).filter_by(id=id))
         return result.scalars().one()
 
@@ -63,7 +63,9 @@ class ExampleRepository:
 
         stmt = (delete(self.orm).filter_by(id=id))
         await self.db_session.execute(stmt)
+        await self.db_session.commit()
 
     async def add(self, payload: AddExampleRequest) -> None:
         stmt = (insert(self.orm).values(**payload.dict()))
         await self.db_session.execute(stmt)
+        await self.db_session.commit()

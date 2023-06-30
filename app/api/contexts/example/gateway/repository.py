@@ -52,7 +52,7 @@ class ExampleRepository:
         if not result.first():
             raise ModelNotFoundException(
                 detail=f'{self.orm.__tablename__}.id={id} not found')
-
+        self.db_session.commit()
         return self.db_session.execute(select(self.orm).filter_by(id=id)).one()
 
     def delete(self, id: int) -> None:
@@ -60,7 +60,9 @@ class ExampleRepository:
 
         stmt = (delete(self.orm).filter_by(id=id))
         self.db_session.execute(stmt)
+        self.db_session.commit()
 
     def add(self, payload: AddExampleRequest) -> None:
         stmt = (insert(self.orm).values(**payload.dict()))
         self.db_session.execute(stmt)
+        self.db_session.commit()

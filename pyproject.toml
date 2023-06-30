@@ -22,11 +22,11 @@ toml = "^0.10.2"
 pytest = "^7.2.0"
 pytest-env = "^0.8.1"
 httpx = "^0.23.1"
-pytest-asyncio = "^0.20.3"
 mypy = "^0.991"
 pytest-cov = "^4.0.0"
 pytest-xdist = "^3.1.0"
 ruff = "^0.0.272"
+pytest-asyncio = "^0.21.0"
 
 [build-system]
 requires = ["poetry-core"]

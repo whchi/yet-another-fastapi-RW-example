@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from fastapi.param_functions import Depends, Query
 
-from app.api.contexts.async_example.domain import (
+from .domain import (
     AddExampleRequest,
     AddExampleResponse,
     DeleteExampleResponse,
@@ -11,15 +11,13 @@ from app.api.contexts.async_example.domain import (
     UpdateExampleRequest,
     UpdateExampleResponse,
 )
-from app.api.contexts.async_example.usecase import (
+from .usecase import (
     AddExample,
     DeleteExample,
     GetExample,
     GetExamples,
-    UpdateExample,
-)
-from app.api.contexts.async_example.usecase.get_paginate_examples import (
     GetPaginateExamples,
+    UpdateExample,
 )
 
 router = APIRouter()
