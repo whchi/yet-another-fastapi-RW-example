@@ -24,7 +24,6 @@ def get_session():  # type: ignore
     with session_global() as session:
         try:
             yield session
-            session.commit()
         except:
             session.rollback()
             raise
