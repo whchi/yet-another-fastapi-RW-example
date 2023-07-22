@@ -2,7 +2,7 @@ from fastapi.param_functions import Depends
 
 from app.api.shared_schema import PageModel
 
-from ..domain import ExampleEntity
+from ..domain import AsyncExampleEntity
 from ..gateway import ExampleRepository
 
 
@@ -13,8 +13,8 @@ class GetPaginateExamples:
 
     async def execute(self,
                       page: int = 1,
-                      per_page: int = 15) -> PageModel[ExampleEntity]:
+                      per_page: int = 15) -> PageModel[AsyncExampleEntity]:
         data = await self.repo.paginate_index(page, per_page)
-        formatted = [ExampleEntity(**item.dict()) for item in data['items']]
+        formatted = [AsyncExampleEntity(**item.dict()) for item in data['items']]
         data['items'] = formatted
-        return PageModel[ExampleEntity](**data)
+        return PageModel[AsyncExampleEntity](**data)

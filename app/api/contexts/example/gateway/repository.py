@@ -2,7 +2,7 @@ from typing import Any, Dict, List
 
 from fastapi.param_functions import Depends
 from sqlalchemy.engine import Row
-from sqlalchemy.sql import delete, insert, update
+from sqlalchemy.sql import delete, insert
 from sqlmodel import Session
 from sqlmodel.sql.expression import col, select
 
@@ -34,8 +34,8 @@ class ExampleRepository:
 
         return ModelPaginator.paginate(query, page, per_page)
 
-    def show(self, id: int) -> Row:
-        row = self.db_session.execute(select(self.orm).filter_by(id=id)).fetchone()
+    def show(self, id: int) -> Example:
+        row = self.db_session.execute(select(self.orm).filter_by(id=id)).scalar()
 
         if not row:
             raise ModelNotFoundException(
@@ -43,17 +43,16 @@ class ExampleRepository:
 
         return row
 
-    def update(self, id: int, payload: UpdateExampleRequest) -> Row:
-        stmt = (update(self.orm).where(self.orm.id == id).values(
-            payload.dict(exclude_unset=True)).returning(self.orm.id))
-
-        result = self.db_session.execute(stmt)
-
-        if not result.first():
-            raise ModelNotFoundException(
-                detail=f'{self.orm.__tablename__}.id={id} not found')
+    def update(self, id: int, payload: UpdateExampleRequest) -> Example:
+        row = self.show(id)
+        row.name = payload.name
+        if payload.age:
+            row.age = payload.age
+        row.nick_name = payload.nick_name
+        self.db_session.add(row)
         self.db_session.commit()
-        return self.db_session.execute(select(self.orm).filter_by(id=id)).one()
+        self.db_session.refresh(row)
+        return row
 
     def delete(self, id: int) -> None:
         self.show(id)

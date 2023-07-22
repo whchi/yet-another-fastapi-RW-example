@@ -13,7 +13,7 @@ from app.api.shared_schema import (
 )
 
 
-class ExampleEntity(IDModel, TimestampsModel, RWModel):
+class AsyncExampleEntity(IDModel, TimestampsModel, RWModel):
     name: str
     age: int
     nick_name: str | None
@@ -45,21 +45,21 @@ class UpdateExampleRequest(BaseModel):
     nick_name: str | None = Field(None, min_length=2)
 
 
-class UpdateExampleResponse(ResponseBaseModel[ExampleEntity]):
-    data: ExampleEntity
+class UpdateExampleResponse(ResponseBaseModel[AsyncExampleEntity]):
+    data: AsyncExampleEntity
 
 
-class GetExampleResponse(ResponseBaseModel[ExampleEntity]):
-    data: ExampleEntity
+class GetExampleResponse(ResponseBaseModel[AsyncExampleEntity]):
+    data: AsyncExampleEntity
 
 
-class GetExamplesResponse(ResponseBaseModel[List[ExampleEntity]]):
-    data: List[ExampleEntity]
+class GetExamplesResponse(ResponseBaseModel[List[AsyncExampleEntity]]):
+    data: List[AsyncExampleEntity]
 
 
 class DeleteExampleResponse(ResponseBaseModel[dict[None, None]]):
     data: dict[None, None] = {}
 
 
-class GetPaginateExamplesResponse(PaginateResponseBaseModel[ExampleEntity]):
-    data: PageModel[ExampleEntity]
+class GetPaginateExamplesResponse(PaginateResponseBaseModel[AsyncExampleEntity]):
+    data: PageModel[AsyncExampleEntity]

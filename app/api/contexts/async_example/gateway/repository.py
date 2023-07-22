@@ -4,7 +4,7 @@ from fastapi.param_functions import Depends
 from sqlalchemy import desc
 from sqlalchemy.engine import Row
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.sql import delete, insert, update
+from sqlalchemy.sql import delete, insert
 from sqlmodel.sql.expression import select
 
 from app.api.contexts.async_example.domain import (
@@ -47,16 +47,16 @@ class ExampleRepository:
         return row
 
     async def update(self, id: int, payload: UpdateExampleRequest) -> Example:
-        stmt = (update(self.orm).where(self.orm.id == id).values(
-            payload.dict(exclude_unset=True)).returning(self.orm.id))
+        row = await self.show(id)
 
-        result = await self.db_session.execute(stmt)
-        if not result.first():
-            raise ModelNotFoundException(
-                detail=f'{self.orm.__tablename__}.id={id} not found')
+        row.nick_name = payload.nick_name
+        row.name = payload.name
+        if payload.age:
+            row.age = payload.age
+
+        self.db_session.add(row)
         await self.db_session.commit()
-        result = await self.db_session.execute(select(self.orm).filter_by(id=id))
-        return result.scalars().one()
+        return row
 
     async def delete(self, id: int) -> None:
         await self.show(id)

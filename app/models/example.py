@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, func, TIMESTAMP
+from sqlalchemy import Column, TIMESTAMP
 from sqlmodel import Field, SQLModel
 
 
@@ -11,6 +11,6 @@ class Example(SQLModel, table=True):
     name: str
     nick_name: str | None = Field(default=None)
     age: int
-    created_at: datetime = Field(sa_column=Column(TIMESTAMP, default=func.now()))
+    created_at: datetime = Field(sa_column=Column(TIMESTAMP, default=datetime.utcnow))
     updated_at: datetime = Field(
-        sa_column=Column(TIMESTAMP, default=func.now(), onupdate=func.now()))
+        sa_column=Column(TIMESTAMP, default=datetime.utcnow, onupdate=datetime.utcnow))

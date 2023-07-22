@@ -23,7 +23,6 @@ async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_global.begin() as session:
         try:
             yield session
-            await session.commit()
         except:
             await session.rollback()
             raise

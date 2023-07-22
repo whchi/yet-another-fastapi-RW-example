@@ -1,8 +1,7 @@
 from fastapi.param_functions import Depends
 
-from app.api.contexts.example.domain import UpdateExampleRequest
-from app.api.contexts.example.domain.schema import ExampleEntity
-from app.api.contexts.example.gateway import ExampleRepository
+from ..domain import ExampleEntity, UpdateExampleRequest
+from ..gateway import ExampleRepository
 
 
 class UpdateExample:
@@ -12,4 +11,4 @@ class UpdateExample:
 
     def execute(self, id: int, payload: UpdateExampleRequest) -> ExampleEntity:
         data = self.repo.update(id, payload)
-        return ExampleEntity(**data[0].dict())
+        return ExampleEntity(**data.dict())

@@ -1,7 +1,7 @@
 from fastapi.param_functions import Depends
 
-from app.api.contexts.example.domain import AddExampleRequest
-from app.api.contexts.example.gateway import ExampleRepository
+from ..domain import AddExampleRequest
+from ..gateway import ExampleRepository
 
 
 class AddExample:

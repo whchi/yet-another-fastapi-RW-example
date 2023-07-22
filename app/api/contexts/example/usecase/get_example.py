@@ -1,7 +1,7 @@
 from fastapi.param_functions import Depends
 
-from app.api.contexts.example.domain.schema import ExampleEntity
-from app.api.contexts.example.gateway import ExampleRepository
+from ..domain.schema import ExampleEntity
+from ..gateway import ExampleRepository
 
 
 class GetExample:
@@ -11,4 +11,4 @@ class GetExample:
 
     def execute(self, id: int) -> ExampleEntity:
         data = self.repo.show(id)
-        return ExampleEntity(**data[0].dict())
+        return ExampleEntity(**data.dict())

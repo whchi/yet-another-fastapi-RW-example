@@ -12,6 +12,7 @@ from .base import BaseAppSettings
 class AppSettings(BaseAppSettings):
     APP_NAME: str
     APP_ENV: str
+    APP_URL: str
     LOG_LEVEL: str = 'debug'
     DOCS_URL: str = '/docs'
     OPENAPI_URL: str = '/openapi.json'
