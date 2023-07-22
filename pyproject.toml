@@ -85,6 +85,7 @@ testpaths = [
 env = [
     "APP_NAME=test",
     "APP_ENV=test",
+    "APP_URL=http://localhost",
     "APP_DEBUG=true",
     "LOG_LEVEL=debug",
     "DB_USER=root",
