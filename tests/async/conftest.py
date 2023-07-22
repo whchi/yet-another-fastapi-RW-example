@@ -13,14 +13,7 @@ from database.async_connection import engine as async_engine
 
 
 @pytest.fixture
-def app() -> FastAPI:
-    from app.main import get_application
-
-    return get_application()
-
-
-@pytest.fixture
-async def client(app: FastAPI) -> AsyncClient:
+async def async_client(app: FastAPI) -> AsyncClient:
     return AsyncClient(app=app, base_url=get_app_settings().APP_URL)
 
 
@@ -64,8 +57,6 @@ async def async_db(async_db_engine):
         for table in reversed(SQLModel.metadata.sorted_tables):
             await session.execute(f'TRUNCATE {table.name} CASCADE;')
             await session.commit()
-
-        # await session.close()
 
 
 @pytest.fixture(scope='session')

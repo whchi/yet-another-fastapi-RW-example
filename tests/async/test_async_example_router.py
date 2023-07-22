@@ -10,10 +10,10 @@ from app.models import Example
 pytestmark = pytest.mark.asyncio
 
 
-async def test_add_example(client: AsyncClient, async_db: AsyncSession) -> None:
+async def test_add_example(async_client: AsyncClient, async_db: AsyncSession) -> None:
     payload = {'name': 'my name', 'age': 18, 'nick_name': 'my nick name'}
 
-    response = await client.post('/api/async-examples', json=payload)
+    response = await async_client.post('/api/async-examples', json=payload)
 
     assert response.status_code == status.HTTP_200_OK
     assert response.json()['status'] == status.HTTP_201_CREATED
@@ -23,38 +23,38 @@ async def test_add_example(client: AsyncClient, async_db: AsyncSession) -> None:
     assert row.name == payload['name']
 
 
-async def test_get_example(client: AsyncClient, async_db: AsyncSession,
+async def test_get_example(async_client: AsyncClient, async_db: AsyncSession,
                            async_example_orm: Example) -> None:
-    response = await client.get(f'/api/async-examples/{async_example_orm.id}')
+    response = await async_client.get(f'/api/async-examples/{async_example_orm.id}')
 
     assert response.status_code == status.HTTP_200_OK
     assert (await async_db.execute(select(Example).filter_by(id=async_example_orm.id)
                                   )).scalar_one().id == async_example_orm.id
 
 
-async def test_get_examples(client: AsyncClient, async_db: AsyncSession,
+async def test_get_examples(async_client: AsyncClient, async_db: AsyncSession,
                             async_example_orm: Example) -> None:
-    response = await client.get('/api/async-examples')
+    response = await async_client.get('/api/async-examples')
 
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()['data']) == 1
 
 
-async def test_delete_example(client: AsyncClient, async_db: AsyncSession,
+async def test_delete_example(async_client: AsyncClient, async_db: AsyncSession,
                               async_example_orm: Example) -> None:
-    response = await client.delete(f'/api/async-examples/{async_example_orm.id}')
+    response = await async_client.delete(f'/api/async-examples/{async_example_orm.id}')
 
     assert response.status_code == status.HTTP_200_OK
     assert (await async_db.execute(select(Example).filter_by(id=async_example_orm.id)
                                   )).scalar() is None
 
 
-async def test_update_example(client: AsyncClient, async_db: AsyncSession,
+async def test_update_example(async_client: AsyncClient, async_db: AsyncSession,
                               async_example_orm: Example) -> None:
     payload = {'name': 'updated_name', 'age': 20}
 
-    response = await client.put(f'/api/async-examples/{async_example_orm.id}',
-                                json=payload)
+    response = await async_client.put(f'/api/async-examples/{async_example_orm.id}',
+                                      json=payload)
     assert response.status_code == status.HTTP_200_OK
     await async_db.refresh(async_example_orm)
     assert (await
@@ -62,9 +62,9 @@ async def test_update_example(client: AsyncClient, async_db: AsyncSession,
                             )).scalar_one().name == response.json()['data']['name']
 
 
-async def test_get_paginate_example(client: AsyncClient,
+async def test_get_paginate_example(async_client: AsyncClient,
                                     async_example_orm: Example) -> None:
-    response = await client.get('/api/async-examples/paginate-examples')
+    response = await async_client.get('/api/async-examples/paginate-examples')
 
     assert response.status_code == status.HTTP_200_OK
     body = response.json()

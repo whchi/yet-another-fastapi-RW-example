@@ -4,6 +4,7 @@ import pytest
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import Session, SQLModel
 
+from app.main import get_application
 from app.models import Example
 from database.connection import engine
 
@@ -37,10 +38,8 @@ def db(db_engine):
     session.close()
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def app() -> FastAPI:
-    from app.main import get_application
-
     return get_application()
 
 
