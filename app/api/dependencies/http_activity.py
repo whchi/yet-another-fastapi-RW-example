@@ -3,9 +3,9 @@ from starlette.requests import Request
 
 
 class HttpActivity(BaseModel):
-    host: str
-    ip: str
-    ua: str
+    host: str | None
+    ip: str | None
+    ua: str | None
     url: str
 
 
@@ -14,7 +14,7 @@ async def get_http_activity(request: Request) -> HttpActivity:
     if client_ip is None:
         client_ip = request.headers.get('X-Forwarded-For')
     if client_ip is None:
-        client_ip = request.client.host  # type: ignore
+        client_ip = None if not request.client else request.client.host
 
     host = request.url.hostname
     url = str(request.url)
