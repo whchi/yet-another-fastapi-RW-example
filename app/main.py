@@ -7,6 +7,8 @@ from app.api.router import router as api_router
 from app.core.config import get_app_settings
 from app.exceptions.handler import http422_exception_handler, http_exception_handler
 
+from .middlewares import I18nMiddleware
+
 
 def get_application() -> FastAPI:
     settings = get_app_settings()
@@ -22,6 +24,7 @@ def get_application() -> FastAPI:
         allow_methods=['*'],
         allow_headers=['*'],
     )
+    application.add_middleware(I18nMiddleware)
 
     application.add_exception_handler(
         HTTPException,
