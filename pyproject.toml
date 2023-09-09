@@ -16,6 +16,9 @@ psycopg2-binary = "^2.9.5"
 pydantic = {extras = ["dotenv"], version = "^1.10.9"}
 asyncpg = "^0.27.0"
 slack-sdk = "^3.21.3"
+boto3 = "^1.28.44"
+typer = {extras = ["all"], version = "^0.9.0"}
+inflect = "^7.0.0"
 
 [tool.poetry.group.dev.dependencies]
 yapf = "^0.32.0"
@@ -101,3 +104,6 @@ env = [
 
 log_format = "%(asctime)s (%(filename)-16s:%(lineno)-3s) %(levelname)-8s %(message)s"
 log_date_format = "%Y-%M-%D %H:%M:%S"
+
+[tool.poetry.scripts]
+make-template = "app.bin.make_boilerplate.main:app"

@@ -13,6 +13,7 @@ class AppSettings(BaseAppSettings):
     APP_NAME: str
     APP_ENV: str
     APP_URL: str
+    APP_DEBUG: bool = True
     LOG_LEVEL: str = 'debug'
     DOCS_URL: str = '/docs'
     OPENAPI_URL: str = '/openapi.json'
@@ -56,6 +57,13 @@ class AppSettings(BaseAppSettings):
                     'description': 'uptime monitor endpoints'
                 }]
         }
+
+    @property
+    def log_level(self) -> int:
+        try:
+            return self._log_level_map[self.LOG_LEVEL]
+        except KeyError:
+            return self._log_level_map['debug']
 
     def configure_logging(self) -> None:
         log_level = self._log_level_map[self.LOG_LEVEL]

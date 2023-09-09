@@ -55,6 +55,8 @@ class SlackHandler(logging.Handler):
     def emit(self, record: logging.LogRecord) -> None:
         blocks = self.format(record)
         try:
+            if not self.logger_config.SLACK_WEBHOOK_URL:
+                raise ValueError('Slack webhook url is not set.')
             client = WebhookClient(url=self.logger_config.SLACK_WEBHOOK_URL)
             client.send(blocks=blocks)
         except SlackApiError as e:
