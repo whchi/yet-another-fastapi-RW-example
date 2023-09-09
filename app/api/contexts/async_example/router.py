@@ -48,8 +48,8 @@ async def get_all(use_case: GetExamples = Depends(GetExamples)) -> GetExamplesRe
 
 @router.post('', response_model=AddExampleResponse)
 async def add(
-        payload: AddExampleRequest,
-        use_case: AddExample = Depends(AddExample),
+    payload: AddExampleRequest,
+    use_case: AddExample = Depends(AddExample),
 ) -> AddExampleResponse:
     await use_case.execute(payload)
     return AddExampleResponse()
@@ -67,8 +67,8 @@ async def update(
 
 @router.delete('/{id}', response_model=DeleteExampleResponse)
 async def delete(
-        id: int,
-        use_case: DeleteExample = Depends(DeleteExample),
+    id: int,
+    use_case: DeleteExample = Depends(DeleteExample),
 ) -> DeleteExampleResponse:
     await use_case.execute(id)
     return DeleteExampleResponse()

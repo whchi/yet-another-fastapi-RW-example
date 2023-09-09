@@ -18,6 +18,13 @@ class AppSettings(BaseAppSettings):
     OPENAPI_URL: str = '/openapi.json'
     REDOC_URL: str = '/redoc'
     LOGGERS: Tuple[str, str] = ('uvicorn.asgi', 'uvicorn.access')
+    SLACK_WEBHOOK_URL: str | None
+    LOG_CHANNEL: str = 'file'
+    AWS_ACCESS_KEY_ID: str | None
+    AWS_SECRET_ACCESS_KEY: str | None
+    AWS_S3_BUCKET: str | None
+    AWS_S3_REGION: str | None
+
     _enable_debug: bool = True
     _log_level_map: Dict[str, int] = {
         'critical': logging.CRITICAL,

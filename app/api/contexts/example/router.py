@@ -47,8 +47,8 @@ def get_all(use_case: GetExamples = Depends(GetExamples)) -> GetExamplesResponse
 
 @router.post('', response_model=AddExampleResponse)
 def add(
-        payload: AddExampleRequest,
-        use_case: AddExample = Depends(AddExample),
+    payload: AddExampleRequest,
+    use_case: AddExample = Depends(AddExample),
 ) -> AddExampleResponse:
     use_case.execute(payload)
     return AddExampleResponse()
@@ -66,8 +66,8 @@ def update(
 
 @router.delete('/{id}', response_model=DeleteExampleResponse)
 def delete(
-        id: int,
-        use_case: DeleteExample = Depends(DeleteExample),
+    id: int,
+    use_case: DeleteExample = Depends(DeleteExample),
 ) -> DeleteExampleResponse:
     use_case.execute(id)
     return DeleteExampleResponse()

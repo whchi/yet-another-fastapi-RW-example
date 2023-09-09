@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = "0.100.0"
+fastapi = ">0.99"
 uvicorn = "^0.22.0"
 sqlmodel = "^0.0.8"
 alembic = "^1.8.1"
@@ -15,6 +15,7 @@ loguru = "^0.7.0"
 psycopg2-binary = "^2.9.5"
 pydantic = {extras = ["dotenv"], version = "^1.10.9"}
 asyncpg = "^0.27.0"
+slack-sdk = "^3.21.3"
 
 [tool.poetry.group.dev.dependencies]
 yapf = "^0.32.0"
@@ -53,6 +54,9 @@ extend-ignore = [
     "B008",
     "E402",
     "E226",
+    "B904",
+    "B030",
+    "B006"
 ]
 extend-exclude = [
     ".venv",
