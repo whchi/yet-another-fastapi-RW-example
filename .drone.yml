@@ -1,0 +1,50 @@
+---
+kind: pipeline
+type: docker
+name: default
+trigger:
+  branch:
+    - add-drone
+  event:
+    - push
+
+platform:
+  os: linux
+  arch: arm64
+
+clone:
+  depth: 1
+
+steps:
+  - name: install
+    image: whcdc/python-poetry-checker
+    commands:
+      - poetry config virtualenvs.create true
+      - poetry install --no-interaction --no-root
+
+  - name: lint
+    depends_on:
+      - install
+    image: whcdc/python-poetry-checker
+    commands:
+      - poetry run flake8 ./app
+      - poetry run mypy ./app
+
+  - name: test
+    depends_on:
+      - install
+      - pgsql
+    image: whcdc/python-poetry-checker
+    commands:
+      - export DB_HOST=pgsql
+      - poetry run pytest
+
+services:
+  - name: pgsql
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: ""
+      POSTGRES_DB: postgres_test
