@@ -24,3 +24,4 @@ gen
 .coverage
 .ruff_cache
 poetry.lock
+.python-version
