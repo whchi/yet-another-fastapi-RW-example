@@ -1,4 +1,7 @@
-from typing import List
+from typing import Any, List
+
+from pydantic import BaseModel, Field
+from starlette import status
 
 from app.api.shared_schema import (
     IDModel,
@@ -8,8 +11,6 @@ from app.api.shared_schema import (
     RWModel,
     TimestampsModel,
 )
-from pydantic import BaseModel, Field, ConfigDict
-from starlette import status
 
 
 class ExampleEntity(IDModel, TimestampsModel, RWModel):
@@ -19,16 +20,18 @@ class ExampleEntity(IDModel, TimestampsModel, RWModel):
 
 
 class AddExampleRequest(BaseModel):
-    model_config = ConfigDict(json_schema_extra={
-        'example': {
-            'name': 'my name',
-            'age': 18,
-            'nick_name': 'my nick name'
+    model_config: dict[str, Any] = {
+        'json_schema_extra': {
+            'example': {
+                'name': 'my name',
+                'age': 18,
+                'nick_name': 'my nick name'
+            }
         }
-    })
+    }
 
     name: str = Field(..., min_length=2)
-    age: int = Field(..., min=1)
+    age: int = Field(..., gt=1)
     nick_name: str | None = Field(None, min_length=2)
 
 
@@ -39,7 +42,7 @@ class AddExampleResponse(ResponseBaseModel[dict[None, None]]):
 
 class UpdateExampleRequest(BaseModel):
     name: str = Field(..., min_length=2)
-    age: int | None = Field(None, min=1)
+    age: int | None = Field(None, gt=1)
     nick_name: str | None = Field(None, min_length=2)
 
 

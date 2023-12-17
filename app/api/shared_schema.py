@@ -1,8 +1,9 @@
 import datetime
 from enum import Enum
-from typing import Generic, List, TypeVar
+from typing import Any, Generic, List, TypeVar
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, Field
+from pydantic.functional_validators import field_validator
 
 
 class ResponseStatusEnum(str, Enum):
@@ -17,7 +18,7 @@ class IDModel(BaseModel):
 
 
 class RWModel(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config: dict[str, Any] = {'populate_by_name': True}
 
 
 class TimestampsModel(BaseModel):
@@ -34,7 +35,7 @@ T = TypeVar('T')
 
 
 class ResponseBaseModel(BaseModel, Generic[T]):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config: dict[str, Any] = {'populate_by_name': True}
 
     data: T | None = None
     message: str | None = ''
@@ -52,7 +53,7 @@ class PageModel(BaseModel, Generic[T]):
 
 
 class PaginateResponseBaseModel(BaseModel, Generic[T]):
-    model_config = ConfigDict(populate_by_name=True)
+    model_config: dict[str, Any] = {'populate_by_name': True}
 
     data: PageModel[T]
     message: str | None = ''
