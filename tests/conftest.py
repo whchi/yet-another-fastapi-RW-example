@@ -32,7 +32,7 @@ def db(db_engine):
 
     session.rollback()
     for table in reversed(SQLModel.metadata.sorted_tables):
-        session.execute(f'TRUNCATE {table.name} CASCADE;')
+        session.execute(text(f'TRUNCATE {table.name} CASCADE;'))
         session.commit()
 
     session.close()
