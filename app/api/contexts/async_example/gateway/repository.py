@@ -2,10 +2,9 @@ from typing import Any, Dict, List
 
 from fastapi.param_functions import Depends
 from sqlalchemy import desc
-from sqlalchemy.engine import Row
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.sql import delete, insert
-from sqlmodel.sql.expression import select
+from sqlmodel.sql.expression import col, select
 
 from app.api.contexts.async_example.domain import (
     AddExampleRequest,
@@ -23,9 +22,9 @@ class ExampleRepository:
         self.orm = Example
         self.db_session = db_session
 
-    async def index(self) -> List[Row]:
+    async def index(self) -> List[Example]:
         result = await self.db_session.execute(select(self.orm))
-        return result.scalars().all()
+        return list(result.scalars())
 
     async def paginate_index(self, page: int, per_page: int) -> Dict[str, Any]:
         return await ModelPaginator.async_paginate(
@@ -33,8 +32,8 @@ class ExampleRepository:
             model=self.orm,
             page=page,
             per_page=per_page,
-            order_by=[desc(self.orm.created_at),
-                      desc(self.orm.id)])
+            order_by=[desc(col(self.orm.created_at)),
+                      desc(col(self.orm.id))])
 
     async def show(self, id: int) -> Example:
         result = await self.db_session.execute(select(self.orm).filter_by(id=id))

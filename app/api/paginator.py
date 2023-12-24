@@ -11,9 +11,9 @@ class ModelPaginator:
 
     @staticmethod
     def paginate(
-        query: Query,  # type: ignore
-        page: int,
-        per_page: int) -> Dict[str, Any]:
+            query: Query,  # type: ignore
+            page: int,
+            per_page: int) -> Dict[str, Any]:
         total = query.count()
         last_page = math.ceil(float(total) / float(per_page))
 
@@ -43,8 +43,8 @@ class ModelPaginator:
 
         # count total number of rows
         stmt = select(func.count()).select_from(model)
-        total = await session.scalar(stmt)
-        last_page = math.ceil(float(total) / float(per_page))
+        total = await session.scalar(stmt) or 0
+        last_page = math.ceil(total / per_page)
 
         next_page = None if page == last_page else page + 1
         prev_page = None if page <= 1 else page - 1

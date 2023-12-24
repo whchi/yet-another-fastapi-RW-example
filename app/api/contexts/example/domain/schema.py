@@ -20,7 +20,7 @@ class ExampleEntity(IDModel, TimestampsModel, RWModel):
 
 
 class AddExampleRequest(BaseModel):
-    model_config: dict[str, Any] = {
+    model_config: dict[str, Any] = {  # type: ignore
         'json_schema_extra': {
             'example': {
                 'name': 'my name',

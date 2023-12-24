@@ -13,4 +13,6 @@ class GetExamples:
 
     def execute(self) -> List[ExampleEntity]:
         data = self.repo.index()
-        return [] if not len(data) else [ExampleEntity(**row[0].dict()) for row in data]
+        return [] if not len(data) else [
+            ExampleEntity(**row.model_dump()) for row in data
+        ]

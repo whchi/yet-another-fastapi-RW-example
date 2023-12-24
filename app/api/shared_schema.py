@@ -18,7 +18,7 @@ class IDModel(BaseModel):
 
 
 class RWModel(BaseModel):
-    model_config: dict[str, Any] = {'populate_by_name': True}
+    model_config: dict[str, Any] = {'populate_by_name': True}  # type: ignore
 
 
 class TimestampsModel(BaseModel):
@@ -35,7 +35,7 @@ T = TypeVar('T')
 
 
 class ResponseBaseModel(BaseModel, Generic[T]):
-    model_config: dict[str, Any] = {'populate_by_name': True}
+    model_config: dict[str, Any] = {'populate_by_name': True}  # type: ignore
 
     data: T | None = None
     message: str | None = ''
@@ -53,7 +53,7 @@ class PageModel(BaseModel, Generic[T]):
 
 
 class PaginateResponseBaseModel(BaseModel, Generic[T]):
-    model_config: dict[str, Any] = {'populate_by_name': True}
+    model_config: dict[str, Any] = {'populate_by_name': True}  # type: ignore
 
     data: PageModel[T]
     message: str | None = ''
