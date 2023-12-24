@@ -1,9 +1,9 @@
 import datetime
 from enum import Enum
-from typing import Generic, List, TypeVar
+from typing import Any, Generic, List, TypeVar
 
-from pydantic import BaseModel, Field, validator
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, Field
+from pydantic.functional_validators import field_validator
 
 
 class ResponseStatusEnum(str, Enum):
@@ -18,15 +18,15 @@ class IDModel(BaseModel):
 
 
 class RWModel(BaseModel):
-    class Config:
-        allow_population_by_field_name = True
+    model_config: dict[str, Any] = {'populate_by_name': True}  # type: ignore
 
 
 class TimestampsModel(BaseModel):
     created_at: datetime.datetime | None = None
     updated_at: datetime.datetime | None = None
 
-    @validator('created_at', 'updated_at', pre=True)
+    @field_validator('created_at', 'updated_at', mode='before')
+    @classmethod
     def default_datetime(cls, value: datetime.datetime) -> datetime.datetime:
         return value or datetime.datetime.now()
 
@@ -34,16 +34,15 @@ class TimestampsModel(BaseModel):
 T = TypeVar('T')
 
 
-class ResponseBaseModel(GenericModel, Generic[T]):
+class ResponseBaseModel(BaseModel, Generic[T]):
+    model_config: dict[str, Any] = {'populate_by_name': True}  # type: ignore
+
     data: T | None = None
     message: str | None = ''
     status: int = 200
 
-    class Config:
-        allow_population_by_field_name = True
 
-
-class PageModel(GenericModel, Generic[T]):
+class PageModel(BaseModel, Generic[T]):
     items: List[T] = []
     total: int
     current_page: int
@@ -53,10 +52,9 @@ class PageModel(GenericModel, Generic[T]):
     per_page: int
 
 
-class PaginateResponseBaseModel(GenericModel, Generic[T]):
+class PaginateResponseBaseModel(BaseModel, Generic[T]):
+    model_config: dict[str, Any] = {'populate_by_name': True}  # type: ignore
+
     data: PageModel[T]
     message: str | None = ''
     status: ResponseStatusEnum = ResponseStatusEnum.SUCCESS
-
-    class Config:
-        allow_population_by_field_name = True

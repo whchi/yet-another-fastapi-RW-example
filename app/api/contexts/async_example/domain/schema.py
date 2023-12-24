@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, List
 
 from pydantic import BaseModel, Field
 from starlette import status
@@ -20,18 +20,19 @@ class AsyncExampleEntity(IDModel, TimestampsModel, RWModel):
 
 
 class AddExampleRequest(BaseModel):
-    name: str = Field(..., min_length=2)
-    age: int = Field(..., min=1)
-    nick_name: str | None = Field(None, min_length=2)
-
-    class Config:
-        schema_extra = {
+    model_config: dict[str, Any] = {  # type: ignore
+        'json_schema_extra': {
             'example': {
                 'name': 'my name',
                 'age': 18,
                 'nick_name': 'my nick name'
             }
         }
+    }
+
+    name: str = Field(..., min_length=2)
+    age: int = Field(..., gt=1)
+    nick_name: str | None = Field(None, min_length=2)
 
 
 class AddExampleResponse(ResponseBaseModel[dict[None, None]]):
@@ -41,7 +42,7 @@ class AddExampleResponse(ResponseBaseModel[dict[None, None]]):
 
 class UpdateExampleRequest(BaseModel):
     name: str = Field(..., min_length=2)
-    age: int | None = Field(None, min=1)
+    age: int | None = Field(None, gt=1)
     nick_name: str | None = Field(None, min_length=2)
 
 

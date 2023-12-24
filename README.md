@@ -1,3 +1,12 @@
+# installation
+```shell
+# install poetry
+poetry install --no-root
+
+# database
+docker-compose up
+```
+
 # main concept
 ```shell
 app/

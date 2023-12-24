@@ -15,6 +15,6 @@ class GetPaginateExamples:
                       page: int = 1,
                       per_page: int = 15) -> PageModel[AsyncExampleEntity]:
         data = await self.repo.paginate_index(page, per_page)
-        formatted = [AsyncExampleEntity(**item.dict()) for item in data['items']]
+        formatted = [AsyncExampleEntity(**item.model_dump()) for item in data['items']]
         data['items'] = formatted
         return PageModel[AsyncExampleEntity](**data)

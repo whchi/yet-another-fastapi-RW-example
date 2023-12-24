@@ -1,7 +1,6 @@
 from typing import Any, Dict, List
 
 from fastapi.param_functions import Depends
-from sqlalchemy.engine import Row
 from sqlalchemy.sql import delete, insert
 from sqlmodel import Session
 from sqlmodel.sql.expression import col, select
@@ -20,8 +19,8 @@ class ExampleRepository:
         self.orm = Example
         self.db_session = db_session
 
-    def index(self) -> List[Row]:
-        return self.db_session.execute(select(self.orm)).all()
+    def index(self) -> List[Example]:
+        return list(self.db_session.execute(select(self.orm)).scalars())
 
     def paginate_index(
         self,
@@ -62,6 +61,6 @@ class ExampleRepository:
         self.db_session.commit()
 
     def add(self, payload: AddExampleRequest) -> None:
-        stmt = (insert(self.orm).values(**payload.dict()))
+        stmt = (insert(self.orm).values(**payload.model_dump()))  # type: ignore
         self.db_session.execute(stmt)
         self.db_session.commit()

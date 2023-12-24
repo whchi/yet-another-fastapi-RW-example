@@ -11,4 +11,4 @@ class GetExample:
 
     async def execute(self, id: int) -> AsyncExampleEntity:
         data = await self.repo.show(id)
-        return AsyncExampleEntity(**data.dict())
+        return AsyncExampleEntity(**data.model_dump())
