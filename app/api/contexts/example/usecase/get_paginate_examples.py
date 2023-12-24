@@ -13,6 +13,6 @@ class GetPaginateExamples:
 
     def execute(self, page: int = 1, per_page: int = 15) -> PageModel[ExampleEntity]:
         data = self.repo.paginate_index(page, per_page)
-        formatted = [ExampleEntity(**item.dict()) for item in data['items']]
+        formatted = [ExampleEntity(**item.model_dump()) for item in data['items']]
         data['items'] = formatted
         return PageModel[ExampleEntity](**data)

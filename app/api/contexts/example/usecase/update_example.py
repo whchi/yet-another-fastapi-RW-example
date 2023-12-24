@@ -11,4 +11,4 @@ class UpdateExample:
 
     def execute(self, id: int, payload: UpdateExampleRequest) -> ExampleEntity:
         data = self.repo.update(id, payload)
-        return ExampleEntity(**data.dict())
+        return ExampleEntity(**data.model_dump())

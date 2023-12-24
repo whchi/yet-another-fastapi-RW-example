@@ -14,5 +14,5 @@ class GetExamples:
     async def execute(self) -> List[AsyncExampleEntity]:
         data = await self.repo.index()
         return [] if not len(data) else [
-            AsyncExampleEntity(**row.dict()) for row in data
+            AsyncExampleEntity(**row.model_dump()) for row in data
         ]

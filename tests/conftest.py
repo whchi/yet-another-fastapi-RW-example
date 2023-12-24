@@ -1,8 +1,11 @@
+from typing import Generator
+
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 import pytest
+from sqlalchemy import Engine
 from sqlalchemy.orm import sessionmaker
-from sqlmodel import Session, SQLModel
+from sqlmodel import Session, SQLModel, text
 
 from app.main import get_application
 from app.models import Example
@@ -10,7 +13,7 @@ from database.connection import engine
 
 
 @pytest.fixture(scope='session')
-def db_engine():
+def db_engine() -> Generator[Session, None, None]:
     SQLModel.metadata.create_all(engine)
 
     yield engine
@@ -19,7 +22,7 @@ def db_engine():
 
 
 @pytest.fixture(scope='function')
-def db(db_engine):
+def db(db_engine: Engine) -> Generator[Session, None, None]:
     session = sessionmaker(
         autocommit=False,
         autoflush=False,

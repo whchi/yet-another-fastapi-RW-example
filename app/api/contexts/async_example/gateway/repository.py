@@ -56,6 +56,7 @@ class ExampleRepository:
 
         self.db_session.add(row)
         await self.db_session.commit()
+
         return row
 
     async def delete(self, id: int) -> None:
@@ -66,6 +67,6 @@ class ExampleRepository:
         await self.db_session.commit()
 
     async def add(self, payload: AddExampleRequest) -> None:
-        stmt = (insert(self.orm).values(**payload.dict()))
+        stmt = (insert(self.orm).values(**payload.model_dump()))  # type: ignore
         await self.db_session.execute(stmt)
         await self.db_session.commit()

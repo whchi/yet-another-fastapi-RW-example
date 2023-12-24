@@ -13,4 +13,4 @@ class UpdateExample:
     async def execute(self, id: int,
                       payload: UpdateExampleRequest) -> AsyncExampleEntity:
         data = await self.repo.update(id, payload)
-        return AsyncExampleEntity(**data.dict())
+        return AsyncExampleEntity(**data.model_dump())
