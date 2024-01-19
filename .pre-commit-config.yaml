@@ -25,17 +25,17 @@ repos:
           - split_before_logical_operator = true
           - split_before_arithmetic_operator = true
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.0.292
+    rev: v0.1.13
     hooks:
       - id: ruff
         args:
           - --fix
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.7.1
+    rev: v1.8.0
     hooks:
       - id: mypy
         additional_dependencies:
-          - "pydantic>=2.0"
+          - "pydantic>=2.0,<3.0"
         args:
           - --strict-optional
           - --ignore-missing-imports
