@@ -23,7 +23,8 @@ def context(name: str) -> None:
         FileUtil.make_dirs(f'{context_path}/{dir_}')
         FileUtil.write(f'{context_path}/{dir_}/__init__.py', '')
 
-    FileUtil.write(f'{context_path}/__init__.py', 'from .router import router\n')
+    FileUtil.write(f'{context_path}/__init__.py',
+                   'from .router import router\n\n__all__ = [\'router\']\n')
     template = Template(filename=app_path('bin/make_boilerplate/stubs/router.mako'))
     FileUtil.write(f'{context_path}/router.py', template.render_unicode())
 
