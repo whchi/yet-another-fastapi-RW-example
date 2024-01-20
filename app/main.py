@@ -25,14 +25,13 @@ def get_application() -> FastAPI:
         allow_headers=['*'],
     )
     application.add_middleware(I18nMiddleware)
-
     application.add_exception_handler(
         HTTPException,
-        http_exception_handler,
+        http_exception_handler,  # type: ignore
     )
     application.add_exception_handler(
         RequestValidationError,
-        http422_exception_handler,
+        http422_exception_handler,  # type: ignore
     )
 
     application.include_router(api_router, prefix='/api')
