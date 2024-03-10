@@ -61,6 +61,6 @@ class ExampleRepository:
         self.db_session.commit()
 
     def add(self, payload: AddExampleRequest) -> None:
-        stmt = (insert(self.orm).values(**payload.model_dump()))  # type: ignore
+        stmt = (insert(self.orm).values(**payload.model_dump()))
         self.db_session.execute(stmt)
         self.db_session.commit()

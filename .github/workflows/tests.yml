@@ -80,7 +80,10 @@ jobs:
       #----------------------------------------------
       #              run test suite
       #----------------------------------------------
-      - name: Run tests
+      - name: Run sync tests
         run: |
           source .venv/bin/activate
-          poetry run pytest tests/
+          poetry run pytest --tb=line -k "not async" tests/
+      - name: Run async tests
+        run: |
+          poetry run pytest --tb=line tests/async/
