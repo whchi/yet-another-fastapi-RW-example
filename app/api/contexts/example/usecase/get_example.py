@@ -11,4 +11,4 @@ class GetExample:
 
     def execute(self, id: int) -> ExampleEntity:
         data = self.repo.show(id)
-        return ExampleEntity(**data.dict())
+        return ExampleEntity(**data.model_dump())

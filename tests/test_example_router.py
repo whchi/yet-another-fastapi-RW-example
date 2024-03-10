@@ -1,3 +1,4 @@
+from sqlalchemy import func
 from sqlmodel import select, Session
 from starlette import status
 from starlette.testclient import TestClient
@@ -13,8 +14,8 @@ def test_add_example(client: TestClient, db: Session) -> None:
     assert response.status_code == status.HTTP_200_OK
     assert response.json()['status'] == status.HTTP_201_CREATED
 
-    db_row = db.query(Example).first()
-    db_count = db.query(Example).count()
+    db_row = db.execute(select(Example)).scalar()
+    db_count = db.execute(func.count(Example.id)).scalar()
 
     assert db_count == 1
     assert db_row is not None
@@ -25,7 +26,8 @@ def test_get_example(client: TestClient, db: Session, example_orm: Example) -> N
     response = client.get(f'/api/examples/{example_orm.id}')
 
     assert response.status_code == status.HTTP_200_OK
-    assert db.query(Example).filter_by(id=example_orm.id).scalar().id == example_orm.id
+    assert db.execute(
+        select(Example).filter_by(id=example_orm.id)).scalar().id == example_orm.id
 
 
 def test_get_examples(client: TestClient, db: Session, example_orm: Example) -> None:
@@ -39,7 +41,7 @@ def test_delete_example(client: TestClient, db: Session, example_orm: Example) -
     response = client.delete(f'/api/examples/{example_orm.id}')
 
     assert response.status_code == status.HTTP_200_OK
-    assert db.query(Example).filter_by(id=example_orm.id).first() is None
+    assert db.execute(select(Example).filter_by(id=example_orm.id)).scalar() is None
 
 
 def test_update_example(client: TestClient, db: Session, example_orm: Example) -> None:

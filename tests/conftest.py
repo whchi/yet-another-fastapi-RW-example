@@ -20,6 +20,10 @@ def db_engine() -> Generator[Session, None, None]:
 
     SQLModel.metadata.drop_all(engine)
 
+    with engine.connect() as conn:
+        conn.execute(text('DROP TABLE IF EXISTS alembic_version;'))
+        conn.commit()
+
 
 @pytest.fixture(scope='function')
 def db(db_engine: Engine) -> Generator[Session, None, None]:

@@ -25,7 +25,7 @@ repos:
           - split_before_logical_operator = true
           - split_before_arithmetic_operator = true
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.13
+    rev: v0.3.2
     hooks:
       - id: ruff
         args:
